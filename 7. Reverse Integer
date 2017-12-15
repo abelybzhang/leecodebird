@@ -1,0 +1,55 @@
+题目的要求是给一个32位有符号整数，实现将该数的数字位进行反转。
+
+思路：看到这道题目，我自己最初的思路是首先将每个数位进行分离存储到一个列表里面，然后按逆序按位叠加求和。并按这个思路设计完成了函数
+
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        if 2**31 < abs(x):   #判断输入的数是否在32位的范围里面
+            return 0
+        xls = []
+		
+        if x>= 0:                      
+            for i in range(10):       #实现数位的分离，并按从高位到低位的顺序存储在xls列表中
+                j = 9 - i
+                x0 = x //(10**j)
+                xls.append(x0)
+                x = x - x0 * 10**j
+            sum = 0
+            k = 0
+            for i in range(10):       #数位反转之后如果输入数比较小，按这种方法就会在高位存储很多的0，该循环用于消除高位上的0.
+                if xls[i] == 0:
+                    continue
+                else:
+                    k = i
+                    break
+            for i in range(k,10):
+                sum = sum + xls[i] * 10**(i-k)
+            if 2**31 < abs(sum):     #判断反转之后是否超出范围
+                return 0
+            return sum
+        else: 
+            x = abs(x)
+            for i in range(10):
+                j = 9 - i
+                x0 = x //(10**j)
+                xls.append(x0)
+                x = x - x0 * 10**j
+            sum = 0
+            k = 0
+            for i in range(10):
+                if xls[i] == 0:
+                    continue
+                else:
+                    k = i
+                    break
+            for i in range(k,10):
+                sum = sum + xls[i] * 10**(i-k)
+            if 2**31 < abs(sum):
+                return 0
+            return 0 - sum
+			
+这个方法是比较容易想到，比较笨的方法。
