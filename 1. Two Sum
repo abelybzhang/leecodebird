@@ -1,0 +1,16 @@
+题目要求：给定一个数组，再给定一个数，返回数组中两个元素和与该数相等的元素的索引。
+
+我的思路：两层循环对所有结果进行遍历，外层循环遍历所有数组，内层循环遍历大于外层索引的部分，相当于遍历了矩阵的上三角阵。找到之后进行返回。
+如果存在多组结果的话，可以将其以元组的形式放在一个列表里面。
+class Solution(object):
+    def twoSum(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        for i in range(len(nums)):
+            for j in range(i,len(nums)):
+                if (i != j) and (nums[i] + nums[j] == target):
+                    return [i , j]
+          
