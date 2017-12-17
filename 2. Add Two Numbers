@@ -1,0 +1,38 @@
+题目要求：给出两个链表，每个链表的每个节点存放一个数字，且数字逆序排列，最终要求按顺序将两个列表表示的数值求和，结果任然用逆序链表返回。
+
+我的思路：首先新建一个要返回的链表，该链表有两个指针，一个是固定指针用于返回该链表，另一个是移动指针，用于给链表赋值。
+
+注意：1.两个链表有可能存在空链表；这就要求在取链表元素的时候判断链表是否为空。
+     2.两个链表长度不一定相等；这个要求取每一个链表元素的时候判断是否已经取到了最后一个元素。
+     3.在每一位相加的过程中有可能产生进位，在将所有的数位加完之后，如果进位不是零，要将其加到链表的最后一个元素上。
+程序如下：
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        carry = 0   #表示进位
+        root = root1 = ListNode(0)   #生成返回链表，一个固定指针一个移动指针
+        while l1 or l2:      #判断是否存在空链表
+            x1 = x2 = 0      #如果链表为空，将其相应位上的值赋为0
+            if l1:        #判断链表是否已经取完
+                x1 = l1.val  
+                l1 = l1.next    #跟新链表指针
+            if l2:
+                x2 = l2.val
+                l2 = l2.next
+            carry,val_need = divmod(x1 + x2 + carry,10)    #divmode(a,b)函数返回的是(a//b, a%b)
+            root1.next = ListNode(val_need)     #将求的位的值赋值给俩表的下一个节点
+            root1 = root1.next     #跟新链表赋值指针
+        if carry !=0:
+            root1.next = ListNode(carry)
+        return root.next
