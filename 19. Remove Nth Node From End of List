@@ -1,0 +1,35 @@
+题目要求：给定一个链表，删除链表的倒数第n个节点
+
+我的思路：首先，找出链表的长度，然后计算得到链表的需要删除的元素的顺序的位置，然后对其进行删除，链表元素的删除就是将要删除元素的后一个的指针赋值给他的
+前一个元素的指针。
+要点：1.对链表的操作因该从要操作的元素的前一个元素下手。
+     2.在这个题目中，head2和head1是临时变量，他们本身在内存中占有空间，修改他们的值不会修改链表元素的值，如果要通过他们求改链表的值，必须用他指向链表
+     中的值。例如  head2.next  head2.next.next 等等。
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        """
+        :type head: ListNode
+        :type n: int
+        :rtype: ListNode
+        """
+        count = 1    #用来统计链表中的元素
+        head1 = head2 = head   #设置两个移动指针
+        while head1.next:
+            count = count + 1
+            head1 = head1.next    
+        del_node = count - n    #计算要删除元素的位置
+        while (del_node > 1):
+            del_node = del_node - 1     #head2指向要删除的节点的前一个位置
+            head2 = head2.next    #head2定位到要删除的元素的前一个元素位置
+        if count == n:       #如果删除第一个元素。则直接将第一个元素忽略，链表头直接指向第二个元素即可
+            return head.next
+        else:
+            head2.next = head2.next.next   #若删除后面的元素，则将相应的指针进行赋值即可，切记此处如果求改head2的值并不能修改链表中元素的值。
+            return head
