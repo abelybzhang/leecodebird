@@ -1,0 +1,45 @@
+题目要求：对一个链表，交换每一对相邻的节点。
+我的思路：刚开始我没有新建一个链表，而是直接在原来的链表上面操作，很明显遇到问题，主要问题是：
+1.在原来链表上操作的时候，编写的函数和链表节点的个数很相关。
+2.使用head.next.next的时候，没法保证head.next是否等于None。
+
+之后看了My Python solution using three pointers解答，顿悟，再新增一个链表之后问题将得到大大的简化，不过增加的额外的空间消耗。具体思路为：
+首先判断空链表和只有一个元素链表的特殊情况。
+然后就一般情况，定义两个指针，和一个新的链表，两个指针分别指向要交换的两个节点，此处应该注意，当head指向链表的最后一个元素时，head.next=None。
+然后用两个指针交换这两个节点，设两个节点的指针分别为 h1,h2，为交换这两个节点，首先应该将其与整个链表分离，即首先应该将 h2 后面的部分拿出来到一个
+临时变量里面，然后将 h1 指向的节点跟到 h2 后面，然后将分离的之后的部分追加到 h1 之后，最后将交换完成的链表的 h2 追加到新建的链表 h0 后面，这样
+就完成了两个元素的位置的交换，接下来就是跟新指针的位置，显然 h1,h2 对应到temp 部分的第一个和第二个元素，但是我们不能保证这两个元素存在，因此在更新
+的时候需要进行判断，判断的条件为 temp 是否为 None，如果 temp 为 None， 那么证明我们已经交换到了链表的末尾，因此直接break跳出大循环就可以，如果temp
+不是None 那么就需要对指针进行更新，在此处假设 temp.next = None，那这个算法也是ok的，不会出现无定义的现象，None是一个特殊的值，但他也是个值。
+
+h0指针的位置始终在将要交换的两个元素的前一个位置。对链表元素的操作，定位的时候始终要定位到该元素的前一个元素。
+
+程序：
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def swapPairs(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if head == None:
+            return None
+        if head.next == None:
+            return head
+        h = ListNode(0)
+        h0, h1, h2 = h, head, head.next
+        while h2 != None:
+            temp = h2.next
+            h2.next = h1
+            h1.next = temp
+            h0.next = h2
+            if temp != None:
+                h0, h1, h2 = h1, temp, temp.next
+            else:
+                break
+        return h.next
