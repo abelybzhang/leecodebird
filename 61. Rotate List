@@ -1,0 +1,49 @@
+题目要求：将一个链表从倒数第k位开始前后两部分对调位置。要考虑到取余运算。
+
+我的思路：首先遍历链表求得链表的长度，然后将k对链表的长度进行取余，然后计算需要调整的元素在链表中的起始位置的前一个地址，然后进行调整操作。
+这个题目如果不考虑链表k比n大的情况，只是对链表某倒数第k个元素进行定位的话，用一个循环即可得到，并不需要知道整个链表的长度。
+特殊情况是链表为空。
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def rotateRight(self, head, k):
+        """
+        :type head: ListNode
+        :type k: int
+        :rtype: ListNode
+        """
+        if not head:        #处理特殊情况，空链表
+            return None 
+            
+        head1 = head2 = head    #设置两个指针，一个寻找链表最后一个元素的地址，另一个寻找链表中倒数第k个元素的前一个元素的地址
+        
+        count = 1
+        while head1.next != None:
+            count = count + 1
+            head1 = head1.next   #统计链表的长度，并用head1定位链表的最后一个元素
+        kk = k % count       #考虑k比count大的情况，应该对k进行取余
+        
+        goal_num = count - kk
+        while goal_num > 1:      #对倒数第k个元素的前一个元素进行定位，head2即为其地址
+            head2 = head2.next
+            goal_num = goal_num - 1
+            
+        if head1 == head2:     #如果两个指针指都指向最后一个元素，则表示链表不需要变动
+            return head
+        else:
+            head1.next = head    #对两部分位置进行调整
+            head = head2.next
+            head2.next = None
+            return head
+            
+            
+            
+注意事项：
+1 while head.next:
+      pass
+这样写会陷入死循环，head.next并不会自动叠加，应该在循环体里面加上对 head 的更新赋值。
