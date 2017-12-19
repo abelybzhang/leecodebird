@@ -1,0 +1,45 @@
+题目要求：合并两个已经排序的链表。
+我的思路：首先肯定需要设计一个循环将链表的值进行迭代赋值，刚开始的时候想着设计三个循环，第一个用于两个链表都非空的情况，第二三个分别用于一个链表空
+另一个链表非空的情况。但是仔细一想可以在循环里面用选择结构来实现，具体的算法伪代码为：
+
+while 至少有一个链表非空：
+  if 两个链表都是非空：
+    比较两个链表元素的大小，按顺序赋值
+  elif l1空 l2非空：
+    将l2直接追加到要返回的链表之后
+  else l1非空 l2空：
+    将l1直接追加到要返回的链表之后
+ 更新链表复制指针
+
+具体程序为：
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeTwoLists(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        lr = l3 = ListNode(0)    #因为要返回链表，因此需要一个固定指针和一个移动指针。
+        while l1 or l2:
+            if l1 and l2:
+                if l1.val <= l2.val:
+                    l3.next = l1
+                    l1 = l1.next    #去一个元素，更新一个指针
+                else:
+                    l3.next = l2
+                    l2 = l2.next               
+            elif l1 and (not l2):
+                l3.next = l1
+                l1 = l1.next 
+            else:
+                l3.next = l2
+                l2 = l2.next
+            l3 = l3.next      #上面的一个选择进行一次往新链表里面的赋值
+        return lr.next
