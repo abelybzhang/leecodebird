@@ -1,0 +1,24 @@
+题目要求：给定一个有序链表，删除链表中的所有重复的元素。
+
+我的思路：开始考虑用单层循环实现，但是感觉力不从心，换成两个循环之后明显更容易理解。
+
+1.两层循环程序：
+class Solution(object):
+    def deleteDuplicates(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """      
+
+        rtt = rt = ListNode(0)
+        rtt.next = head     #在该链表的基础上进行操作
+        while head and head.next:
+            if head.val == head.next.val:
+                while head and head.next and head.val == head.next.val:
+                    head = head.next
+                head = head.next
+                rt.next = head       #如果相等，则将最后一个相等的下一个元素跟到当前位置后面
+            else:
+                rt = rt.next
+                head = head.next     #如果不相等，直接往后面跳转指针即可
+        return rtt.next
