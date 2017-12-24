@@ -1,0 +1,35 @@
+题目要求：给一个链表，如果在链表里面有重复的的元素，只保留其中的一个。
+
+我的思路：首先新建一个返回链表的首节点，然后将需要变换的链表跟到这个节点后面，然后对该链表进行操作，
+         如果链表的相邻的两个元素相等，则将后面一个元素删除，否则指针整体后移。
+实现方法：建立两个指针，指向链表的相邻的两个元素，如果第二个指针非空，则进入循环，如果两个指针指向的节点的值相等，则删除后一个节点，否则的话，
+将两个指针均向后移动一个单位。
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def deleteDuplicates(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head:
+            return None
+        if not head.next:
+            return head
+        rt = ListNode(0)
+        rt.next = head
+        p1 = head
+        p2 = head.next
+        while p2 is not None:
+            if p1.val == p2.val:
+                p2 = p2.next
+                p1.next = p2
+            else:
+                p1 = p1.next
+                p2 = p2.next
+        return rt.next
