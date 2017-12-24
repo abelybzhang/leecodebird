@@ -1,0 +1,26 @@
+题目要求：给一个链表，判断这个链表里面有没有环。
+我的思路：用两个指针对链表进行遍历，一个指针步长为1，另一个指针步长为2，如果后面的指针能够追上前面的指针，那么链表肯定有环，如果前面的指针已经到了
+链表的结尾，还没有追上，那么显然链表不存在环。
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        if (not head) or (not head.next):
+            return False       #空链表和只有一个节点的链表不存在环。同时定义初始条件。
+        slow = head
+        fast = head.next
+        while slow is not fast:
+            if (not fast) or (not fast.next):     #链表结尾的限制条件，因为fast指针步长为2，即fast = fast.next.next，所以最终的截止点
+                return False                      #可能在fast也可能在fast.next，而且显然fast 和 fast.next都不能为空
+            slow = slow.next
+            fast = fast.next.next
+        return True
