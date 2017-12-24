@@ -1,0 +1,38 @@
+题目要求：反转一个链表
+我的思路，找出链表的最后一个节点，接到新建的返回链表节点的位置，然后删除原来的最后一个节点，依次循环，直到最后一个节点是第一个节点时，将第一个节点添加
+到最后即可。
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def reverseList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head:
+            return None
+        if not head.next:
+            return head
+        rt = li = ListNode(0)
+        p1 = head.next
+        p = head
+        q = head.next
+        while p1 != head:
+            while q.next != None:
+                q = q.next
+                p = p.next
+            li.next = q
+            li = li.next
+            p.next = None
+            p1 = p
+            p = head
+            q = head.next 
+        li.next = p1
+        return rt.next
+        
+  上面这段程序效率实在太低，需要改进。
