@@ -1,0 +1,34 @@
+题目要求：给定两个排序的数组，将两个数组合并为一个。
+
+我的思路：首先当nums1和nums2都非空时，比较nums1和nums2的第一个元素的大小，若nums1的元素大于等于nums2，那么将nums1在该元素之后的所有元素向后移动
+一个单位，然后将nums2的值插入。若在循环结束时，nums2为空则完成，若他非空，则将其直接追加到nums1后面即可。
+
+
+class Solution(object):
+    def merge(self, nums1, m, nums2, n):
+        """
+        :type nums1: List[int]
+        :type m: int
+        :type nums2: List[int]
+        :type n: int
+        :rtype: void Do not return anything, modify nums1 in-place instead.
+        """
+        k1 = 0
+        k2 = 0
+        while (k1 < m) and (k2 < n):
+            if nums1[k1] >= nums2[k2]:
+                k3 = m-1       #k3始终指向nums1的末元素
+                while k3 >= k1:
+                    nums1[k3+1] = nums1[k3] 
+                    k3 -= 1
+                nums1[k1] = nums2[k2]
+                m = m+1
+                k1 += 1
+                k2 += 1
+            else:
+                k1 += 1
+        if k2 != n:
+            while (k2 != n):
+                nums1[k1] = nums2[k2]
+                k1 += 1
+                k2 += 1
