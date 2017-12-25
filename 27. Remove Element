@@ -1,0 +1,21 @@
+题目要求：给定一个数组，和一个数，删掉数组中等于这个数的元素，并返回新数组的元素的个数。
+
+我的思路：首先从头开始遍历数组，如果发现某个位置的元素和给定的值相等，那么将数组的最后一个元素赋值给这个位置，并将数组的长度减一。保持当前的下标、
+在这一次循环中不动。直到数组遍历完为止。
+
+class Solution(object):
+    def removeElement(self, nums, val):
+        """
+        :type nums: List[int]
+        :type val: int
+        :rtype: int
+        """
+        length = len(nums)
+        count = 0
+        while count < length:
+            if nums[count] == val:
+                nums[count] = nums[length-1]
+                length = length-1
+                continue
+            count = count + 1 
+        return length
