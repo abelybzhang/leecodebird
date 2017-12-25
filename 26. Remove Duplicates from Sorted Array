@@ -1,0 +1,21 @@
+题目要求：给定一个数组，找出数组中不重复元素的个数n并返回，并确保变换后的数组的前n个元素相互不重复。
+
+我的思路：选一个指向第二个元素为初始值的指针，然后从头到尾依次比较数组中相邻的两个元素，如果相邻两个元素的值相等，则不做变化，如果他们不相等，则将后一个
+值复制给之前设置的指针指向的单元，然后将该指针向后移动一个单位。
+
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) == 0:
+            return 0
+        if len(nums) == 1:
+            return 1
+        count = 1       #设置初始指针
+        for i in range(1,len(nums)):    #从头到尾遍历数组
+            if nums[i-1] != nums[i]:    #如果相邻的两个元素不相等，则将后一个元素赋值到count指向的单元，然后将count向后移动一个单元，显然nums[0]
+                nums[count] = nums[i]   #是不需要重新赋值的。
+                count += 1
+        return count
