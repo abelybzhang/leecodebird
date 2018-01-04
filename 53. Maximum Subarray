@@ -1,0 +1,23 @@
+题目要求：给定一个数组，找到和最大的子数组并返回最大的和。
+
+求解思路：首先假设最大值已经找到，假设数组的第一个元素就是最大值，然后对数组的元素按顺序求和，每一次求完和之后都和之前的最大值进行比较，较大的赋值给
+最大值，在求和时，如果球的的和是负数，那么显然他不会使得之后的元素增大，因此将其舍弃，重新从当前元素进行求和。
+
+程序：
+
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return None
+        sumval = 0
+        maxval = nums[0]        #设置初始最大值
+        for i in range(len(nums)):
+            if sumval < 0:      #如果当前和是负数，则从当前元素开始重新求和
+                sumval = 0
+            sumval = sumval + nums[i]    #如果求和结果非负，则将后一个元素叠加到上面
+            maxval = max(maxval,sumval)    #比较迭代一步后的求和结果和预设的最大值，并将较大的赋值给最大值。
+        return maxval                      #maxval里面始终保存已经找到的最大值。
